@@ -4,10 +4,9 @@ services:
     image: ghcr.io/puppeteer/puppeteer:latest
     stdin_open: true
     init: true
+    working_dir: /home/app
     cap_add:
       - SYS_ADMIN
     volumes:
         - .:/home/app/
-    command: ["node", "app.js"]
-    environment:
-      - NODE_ENV=production
+    command: ["node", "/home/app/main.js"]
