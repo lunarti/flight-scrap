@@ -1,12 +1,15 @@
 version: '3'
 services:
   puppeteer:
-    image: ghcr.io/puppeteer/puppeteer:latest
+    build:
+      dockerfile: Dockerfile
     stdin_open: true
     init: true
-    working_dir: /home/app
+    env_file:
+      - .env
     cap_add:
       - SYS_ADMIN
+    working_dir: /home/app
     volumes:
-        - .:/home/app/
-    command: ["node", "main.js"]
+        - .:/home/app/:rw
+    command: ["sh","-c", "node main.js"]
