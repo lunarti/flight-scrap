@@ -78,7 +78,7 @@ const SkyScannerScrap = async () => {
             if (avgTotalCost && parseInt(totalCost) < parseInt(avgTotalCost)) {
               await pushover
                 .setUrl(sel_page.url, 'Link Skyscanner')
-                .send(sel_page.title, formattedInfo);
+                .send(sel_page.title, JSON.stringify(formattedInfo, null, 2));
             }
   
           } else { console.log("Failed scrap") }

@@ -9,4 +9,4 @@ services:
       - SYS_ADMIN
     volumes:
         - .:/home/app/
-    command: ["node", "/home/app/main.js"]
+    command: ["node", "main.js"]
