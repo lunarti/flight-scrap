@@ -1,0 +1,13 @@
+version: '3'
+services:
+  puppeteer:
+    image: ghcr.io/puppeteer/puppeteer:latest
+    stdin_open: true
+    init: true
+    cap_add:
+      - SYS_ADMIN
+    volumes:
+        - .:/home/app/
+    command: ["node", "app.js"]
+    environment:
+      - NODE_ENV=production
