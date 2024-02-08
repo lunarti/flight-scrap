@@ -3,6 +3,8 @@ import delay from 'delay';
 import { Pushover } from 'pushover-js';
 import { insertFlight, getAverageTotalCostForDepartures } from './sqlite.js';
 import 'dotenv/config'
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 const pushover = new Pushover(process.env.USER_KEY_PUSHOVER, process.env.API_KEY_PUSHOVER);
 pushover.setDevice(process.env.DEVICE_NAME);
@@ -32,8 +34,8 @@ const SkyScannerScrap = async () => {
           console.log("Scraping:", sel_page.title);
           const browser = await puppeteer.launch({
             headless: true, // Set headless mode to true
-            defaultViewport: { width: 1920, height: 1080 }, // Set viewport size
-            args: ['--window-size=1920,1080'] // Set window size
+            defaultViewport: { width: 1024, height: 720 }, // Set viewport size
+            args: ['--window-size=1024,720'] // Set window size
           });
           const page = await browser.newPage();
           await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64)');
@@ -82,7 +84,16 @@ const SkyScannerScrap = async () => {
                 .send(sel_page.title, JSON.stringify(formattedInfo, null, 2));
             }
   
-          } else { console.log("Failed scrap") }
+          } else { 
+            console.log("Failed scrap")
+            const directory ='screenshots';
+            if (!fs.existsSync(directory)) {
+              fs.mkdirSync(directory);
+            }
+            let ts = Date.now();
+            const screenshotPath = path.join(directory, `${ts}.png`);
+            await page.screenshot({ path: screenshotPath })
+          }
           
           await browser.close();
           await delay(60000); // delay for skyscanner
