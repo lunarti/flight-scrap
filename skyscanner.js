@@ -39,9 +39,10 @@ const SkyScannerScrap = async () => {
           await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64)');
 
           await page.goto(sel_page.url, { waitUntil: 'domcontentloaded' });
-          await page.waitForNetworkIdle();
-          const text = await getElementTextContent(page, '.BpkTicket_bpk-ticket__paper__OTA1O.BpkTicket_bpk-ticket__main__NmMyM.BpkTicket_bpk-ticket__main--padded__ZjRkZ.BpkTicket_bpk-ticket__main--horizontal__YjNmY');
-          const regex = /Opção de voo \d+: R\$ (\d+) por passageiro\. Custo total R\$ (\d+)\.Voo de ida com (\w+ Airlines)\.Partindo de (.+) às (\d{2}:\d{2}), chegando em (.+) às (\d{2}:\d{2})\.Voo direto levando (\d+) hora(?:s?) e (\d+) minutos\.Voo de volta com (\w+ Airlines)\.Partindo de (.+) às (\d{2}:\d{2}), chegando em (.+) às (\d{2}:\d{2})\.Voo direto levando (\d+) hora(?:s?) e (\d+) minutos\.Preço inclui impostos e taxas\./;
+          await page.waitForNetworkIdle()
+          await delay(15000);
+          const text = await getElementTextContent(page, '.EcoTicketWrapper_itineraryContainer__ZWE4O');
+          const regex = /Opção de voo \d+: R\$ (\d+) por passageiro\. Custo total R\$ (\d+)\.Voo de ida com (.+)\.Partindo de (.+) às (\d{2}:\d{2}), chegando em (.+) às (\d{2}:\d{2})\.Voo direto levando (\d+) hora(?:s?) e (\d+) minutos\.Voo de volta com (.+)\.Partindo de (.+) às (\d{2}:\d{2}), chegando em (.+) às (\d{2}:\d{2})\.Voo direto levando (\d+) hora(?:s?) e (\d+) minutos\.Preço inclui impostos e taxas\./;
           // Extract information using the regular expression
           const match = regex.exec(text);
           if (match) {
@@ -84,7 +85,7 @@ const SkyScannerScrap = async () => {
           } else { console.log("Failed scrap") }
           
           await browser.close();
-          await delay(90000); // delay for skyscanner
+          await delay(60000); // delay for skyscanner
           
         } catch (error) {
         console.error('Error:', error);
